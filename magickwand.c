@@ -147,7 +147,7 @@ static MagickBooleanType MW_read_image( MagickWand *magick_wand, const char *for
                           unsigned long orig_img_idx = (unsigned long) MagickGetNumberImages( magick_wand );
                           php_stream_close(stream);
 
-                          if ( MagickSetImageIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
+                          if ( MagickSetIteratorIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
                                   while ( MagickSetImageFilename( magick_wand, (char *) NULL ), MagickNextImage( magick_wand ) == MagickTrue )
                                           ;
                           }
@@ -233,7 +233,7 @@ static MagickBooleanType MW_read_image( MagickWand *magick_wand, const char *for
 			MW_DEBUG_NOTICE_EX( "The pseudo-format \"%s\" IS a file format", real_magick_format );
 		}
 
-		img_idx = (long) MagickGetImageIndex( magick_wand );
+		img_idx = (long) MagickGetIteratorIndex( magick_wand );
 		if ( MagickGetExceptionType(magick_wand) == UndefinedException ) {
 			img_idx++;
 		}
@@ -241,7 +241,7 @@ static MagickBooleanType MW_read_image( MagickWand *magick_wand, const char *for
 
 		if ( MagickReadImage( magick_wand, real_magick_format ) == MagickTrue ) {
 
-			if ( MagickSetImageIndex( magick_wand, (long) img_idx ) == MagickTrue ) {
+			if ( MagickSetIteratorIndex( magick_wand, (long) img_idx ) == MagickTrue ) {
 
 				num_imgs = ((unsigned long) MagickGetNumberImages( magick_wand )) - num_imgs - 1;
 
@@ -286,7 +286,7 @@ static MagickBooleanType MW_read_image( MagickWand *magick_wand, const char *for
 					img_idx = 0;
 				}
 				else {
-					img_idx = (long) MagickGetImageIndex( magick_wand );
+					img_idx = (long) MagickGetIteratorIndex( magick_wand );
 				}
 
 				if ( MagickGetExceptionType(magick_wand) == UndefinedException ) {
@@ -297,7 +297,7 @@ static MagickBooleanType MW_read_image( MagickWand *magick_wand, const char *for
 
 					MW_DEBUG_NOTICE_EX( "The image \"%s\" was read successfully", real_filename );
 
-					if ( MagickSetImageIndex( magick_wand, (long) img_idx ) == MagickTrue ) {
+					if ( MagickSetIteratorIndex( magick_wand, (long) img_idx ) == MagickTrue ) {
 
 						if ( set_wand_format == MagickTrue ) {
 							/* which means that img_idx == 0, and we are now dealing with image 0 */
@@ -2174,13 +2174,13 @@ PHP_FUNCTION( drawgetexceptiontype )
 }
 /* }}} */
 
-/* {{{ proto float DrawGetFillAlpha( DrawingWand draw_wand )
+/* {{{ proto float DrawGetFillOpacity( DrawingWand draw_wand )
 */
 PHP_FUNCTION( drawgetfillalpha )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_RET_DOUBLE( DrawingWand, DrawGetFillAlpha );
+	MW_GET_WAND_RET_DOUBLE( DrawingWand, DrawGetFillOpacity );
 }
 /* }}} */
 
@@ -2284,13 +2284,13 @@ PHP_FUNCTION( drawgetgravity )
 }
 /* }}} */
 
-/* {{{ proto float DrawGetStrokeAlpha( DrawingWand draw_wand )
+/* {{{ proto float DrawGetStrokeOpacity( DrawingWand draw_wand )
 */
 PHP_FUNCTION( drawgetstrokealpha )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_RET_DOUBLE( DrawingWand, DrawGetStrokeAlpha );
+	MW_GET_WAND_RET_DOUBLE( DrawingWand, DrawGetStrokeOpacity );
 }
 /* }}} */
 
@@ -3092,13 +3092,13 @@ PHP_FUNCTION( drawsetclipunits )
 }
 /* }}} */
 
-/* {{{ proto void DrawSetFillAlpha( DrawingWand draw_wand, float fill_opacity )
+/* {{{ proto void DrawSetFillOpacity( DrawingWand draw_wand, float fill_opacity )
 */
 PHP_FUNCTION( drawsetfillalpha )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_SET_NORMALIZED_COLOR( DrawingWand, DrawSetFillAlpha );
+	MW_GET_WAND_SET_NORMALIZED_COLOR( DrawingWand, DrawSetFillOpacity );
 }
 /* }}} */
 
@@ -3261,13 +3261,13 @@ PHP_FUNCTION( drawsetgravity )
 }
 /* }}} */
 
-/* {{{ proto void DrawSetStrokeAlpha( DrawingWand draw_wand, float stroke_opacity )
+/* {{{ proto void DrawSetStrokeOpacity( DrawingWand draw_wand, float stroke_opacity )
 */
 PHP_FUNCTION( drawsetstrokealpha )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_SET_NORMALIZED_COLOR( DrawingWand, DrawSetStrokeAlpha );
+	MW_GET_WAND_SET_NORMALIZED_COLOR( DrawingWand, DrawSetStrokeOpacity );
 }
 /* }}} */
 
@@ -4010,7 +4010,7 @@ PHP_FUNCTION( magickclipimage )
 }
 /* }}} */
 
-/* {{{ proto bool MagickClipPathImage( MagickWand magick_wand, string pathname, bool inside )
+/* {{{ proto bool MagickClipImagePath( MagickWand magick_wand, string pathname, bool inside )
 */
 PHP_FUNCTION( magickclippathimage )
 {
@@ -4028,7 +4028,7 @@ PHP_FUNCTION( magickclippathimage )
 
 	MW_GET_POINTER_FROM_RSRC( MagickWand, magick_wand, &magick_wand_rsrc_zvl_p );
 
-	MW_BOOL_FUNC_RETVAL_BOOL( MagickClipPathImage( magick_wand, path_name, MW_MK_MGCK_BOOL(clip_inside) ) );
+	MW_BOOL_FUNC_RETVAL_BOOL( MagickClipImagePath( magick_wand, path_name, MW_MK_MGCK_BOOL(clip_inside) ) );
 }
 /* }}} */
 
@@ -4544,13 +4544,13 @@ PHP_FUNCTION( magickdeconstructimages )
 }
 /* }}} */
 
-/* {{{ proto string MagickDescribeImage( MagickWand magick_wand )
+/* {{{ proto string MagickIdentifyImage( MagickWand magick_wand )
 */
 PHP_FUNCTION( magickdescribeimage )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_RETVAL_STRING( MagickWand, MagickDescribeImage );
+	MW_GET_WAND_RETVAL_STRING( MagickWand, MagickIdentifyImage );
 }
 /* }}} */
 
@@ -4596,7 +4596,7 @@ PHP_FUNCTION( magickdisplayimage )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -4722,7 +4722,7 @@ PHP_FUNCTION( magickdisplayimages )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -4850,7 +4850,7 @@ PHP_FUNCTION( magickechoimageblob )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -4950,7 +4950,7 @@ PHP_FUNCTION( magickechoimagesblob )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -5424,7 +5424,7 @@ PHP_FUNCTION( magickgetimageblob )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -5507,7 +5507,7 @@ PHP_FUNCTION( magickgetimagesblob )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -5753,7 +5753,7 @@ PHP_FUNCTION( magickgetimagedispose )
 }
 /* }}} */
 
-/* {{{ proto string MagickGetImageAttribute( MagickWand magick_wand, string key )
+/* {{{ proto string MagickGetImageProperty( MagickWand magick_wand, string key )
 */
 PHP_FUNCTION( magickgetimageattribute )
 {
@@ -5770,7 +5770,7 @@ PHP_FUNCTION( magickgetimageattribute )
 
 	MW_GET_POINTER_FROM_RSRC( MagickWand, magick_wand, &magick_wand_rsrc_zvl_p );
 
-	value = (char *) MagickGetImageAttribute( magick_wand, key );
+	value = (char *) MagickGetImageProperty( magick_wand, key );
 
 	if ( value == (char *) NULL || *value == '\0' ) {
 		RETVAL_MW_EMPTY_STRING();
@@ -5909,13 +5909,13 @@ PHP_FUNCTION( magickgetimagehistogram )
 }
 /* }}} */
 
-/* {{{ proto int MagickGetImageIndex( MagickWand magick_wand )
+/* {{{ proto int MagickGetIteratorIndex( MagickWand magick_wand )
 */
 PHP_FUNCTION( magickgetimageindex )
 {
 	MW_PRINT_DEBUG_INFO
 
-	MW_GET_WAND_RET_LONG( MagickWand, MagickGetImageIndex );
+	MW_GET_WAND_RET_LONG( MagickWand, MagickGetIteratorIndex );
 }
 /* }}} */
 
@@ -6035,7 +6035,7 @@ PHP_FUNCTION( magickgetimagepixelcolor )
 }
 /* }}} */
 
-/* {{{ proto array MagickGetImagePixels( MagickWand magick_wand, int x_offset, int y_offset, float columns, float rows, string map, int storage_type )
+/* {{{ proto array MagickExportImagePixels( MagickWand magick_wand, int x_offset, int y_offset, float columns, float rows, string map, int storage_type )
 */
 PHP_FUNCTION( magickgetimagepixels )
 {
@@ -6086,7 +6086,7 @@ PHP_FUNCTION( magickgetimagepixels )
 #define PRV_RET_PIXEL_ARRAY( type, return_type )  \
 {   type *pixel_array;  \
 	MW_ARR_ECALLOC( type, pixel_array, pixel_array_length );  \
-	if ( MagickGetImagePixels( magick_wand,  \
+	if ( MagickExportImagePixels( magick_wand,  \
 							   x_offset, y_offset,  \
 							   (unsigned long) columns, (unsigned long) rows,  \
 							   map,  \
@@ -6257,7 +6257,7 @@ PHP_FUNCTION( magickgetimagesignature )
 }
 /* }}} */
 
-/* {{{ proto int MagickGetImageSize( MagickWand magick_wand )
+/* {{{ proto int MagickGetImageLength( MagickWand magick_wand )
 */
 PHP_FUNCTION( magickgetimagesize )
 {
@@ -7046,14 +7046,14 @@ PHP_FUNCTION( magicknewimage )
 		}
 	}
 
-	cur_idx = (long) MagickGetImageIndex( magick_wand );
+	cur_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException ) {
 		cur_idx = -1;
 	}
 	MagickClearException( magick_wand );
 
 	if (   MagickNewImage( magick_wand, (unsigned long) width, (unsigned long) height, bg_pixel_wand ) == MagickTrue
-		&& MagickSetImageIndex( magick_wand, (cur_idx + 1) ) == MagickTrue )
+		&& MagickSetIteratorIndex( magick_wand, (cur_idx + 1) ) == MagickTrue )
 	{
 		RETVAL_TRUE;
 	}
@@ -7782,7 +7782,7 @@ PHP_FUNCTION( magickreadimageblob )
 
 	if( MagickReadImageBlob( magick_wand, (void *) blob, (size_t) blob_len ) == MagickTrue ) {
 
-		if ( MagickSetImageIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
+		if ( MagickSetIteratorIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
 			while ( MagickSetImageFilename( magick_wand, (char *) NULL ), MagickNextImage( magick_wand ) == MagickTrue )
 				;
 		}
@@ -7823,7 +7823,7 @@ PHP_FUNCTION( magickreadimagefile )
 	if (MagickReadImageFile(magick_wand, fp)) {
 		unsigned long orig_img_idx = (unsigned long) MagickGetNumberImages( magick_wand );
 		
-		if ( MagickSetImageIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
+		if ( MagickSetIteratorIndex( magick_wand, (long) orig_img_idx ) == MagickTrue ) {
 			while ( MagickSetImageFilename( magick_wand, (char *) NULL ), MagickNextImage( magick_wand ) == MagickTrue )
 				;
 		}
@@ -8339,7 +8339,7 @@ PHP_FUNCTION( magicksetimage )
 }
 /* }}} */
 
-/* {{{ proto bool MagickSetImageAttribute( MagickWand magick_wand, string key, string value )
+/* {{{ proto bool MagickSetImageProperty( MagickWand magick_wand, string key, string value )
 */
 PHP_FUNCTION( magicksetimageattribute )
 {
@@ -8363,7 +8363,7 @@ PHP_FUNCTION( magicksetimageattribute )
 
 	MW_GET_POINTER_FROM_RSRC( MagickWand, magick_wand, &magick_wand_rsrc_zvl_p );
 
-	MW_BOOL_FUNC_RETVAL_BOOL( MagickSetImageAttribute( magick_wand, key, value ) );
+	MW_BOOL_FUNC_RETVAL_BOOL( MagickSetImageProperty( magick_wand, key, value ) );
 }
 /* }}} */
 
@@ -8702,7 +8702,7 @@ PHP_FUNCTION( magicksetimagegreenprimary )
 }
 /* }}} */
 
-/* {{{ proto bool MagickSetImageIndex( MagickWand magick_wand, int index )
+/* {{{ proto bool MagickSetIteratorIndex( MagickWand magick_wand, int index )
 */
 PHP_FUNCTION( magicksetimageindex )
 {
@@ -8716,7 +8716,7 @@ PHP_FUNCTION( magicksetimageindex )
 
 	MW_GET_POINTER_FROM_RSRC( MagickWand, magick_wand, &magick_wand_rsrc_zvl_p );
 
-	MW_BOOL_FUNC_RETVAL_BOOL( MagickSetImageIndex( magick_wand, index ) );
+	MW_BOOL_FUNC_RETVAL_BOOL( MagickSetIteratorIndex( magick_wand, index ) );
 }
 /* }}} */
 
@@ -8828,7 +8828,7 @@ PHP_FUNCTION( magicksetimagepage )
 }
 /* }}} */
 
-/* {{{ proto bool MagickSetImagePixels( MagickWand magick_wand, int x_offset, int y_offset, float columns, float rows, string map, int storage_type, array pixel_array )
+/* {{{ proto bool MagickImportImagePixels( MagickWand magick_wand, int x_offset, int y_offset, float columns, float rows, string map, int storage_type, array pixel_array )
 */
 PHP_FUNCTION( magicksetimagepixels )
 {
@@ -8902,7 +8902,7 @@ PHP_FUNCTION( magicksetimagepixels )
 		pixel_array[ i++ ] = (type) Z_DVAL_PP( zvl_pp_element );  \
 	}  \
 	MW_BOOL_FUNC_RETVAL_BOOL(  \
-		MagickSetImagePixels( magick_wand,  \
+		MagickImportImagePixels( magick_wand,  \
 							  x_offset, y_offset,  \
 							  (unsigned long) columns, (unsigned long) rows,  \
 							  map,  \
@@ -9825,7 +9825,7 @@ PHP_FUNCTION( magickwriteimage )
 	/* Saves the current active image index, as well as performs a shortcut check for any exceptions,
 	   as they will occur if magick_wand contains no images
 	*/
-	img_idx = (long) MagickGetImageIndex( magick_wand );
+	img_idx = (long) MagickGetIteratorIndex( magick_wand );
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
 	}
@@ -9977,7 +9977,7 @@ PHP_FUNCTION( magickwriteimages )
 	/* Saves the current active image index, plus performs shortcut check for any exceptions,
 	   which will occur if magick_wand contains no images
 	*/
-	initial_index = (long) MagickGetImageIndex( magick_wand );
+	initial_index = (long) MagickGetIteratorIndex( magick_wand );
 
 	if ( MagickGetExceptionType(magick_wand) != UndefinedException  ) {
 		RETURN_FALSE;
@@ -10231,9 +10231,9 @@ PHP_FUNCTION( magickwriteimages )
 		MW_FREE_MAGICK_MEM( char *, wand_filename );
 
 		/* If all the above was successful, set the image index back to what it was */
-		if ( MagickSetImageIndex( magick_wand, initial_index ) == MagickFalse ) {
+		if ( MagickSetIteratorIndex( magick_wand, initial_index ) == MagickFalse ) {
 
-			/* Just in case error occurs in MagickSetImageIndex() */
+			/* Just in case error occurs in MagickSetIteratorIndex() */
 			MW_API_FUNC_FAIL_CHECK_WAND_ERROR_EX_1(	magick_wand, MagickWand,
 													"cannot reset the MagickWand index to %ld",
 													initial_index

@@ -29,7 +29,7 @@
   * Add MagickResetImagePage() to reset the image page canvas and position
 
 2007-02-12  1.0.0-0 Cristy  <omicronpersei8@image...>
-  * Deprecate MagickGetImageAttribute()/MagickSetImageAttribute(), use
+  * Deprecate MagickGetImageProperty()/MagickSetImageAttribute(), use
     MagickGetImageProperty()/MagickSetImageProperty() instead.
 
 2007-02-08  1.0.0-0 Cristy  <omicronpersei8@image...>
@@ -1046,7 +1046,7 @@ Thursday, 2005-03-31
 
 - MagickWand for PHP v0.1.4 has a minimum requirement of ImageMagick-6.2.1-1
 
-- Added the new MagickWand C API functions MagickGetImageAttribute(),
+- Added the new MagickWand C API functions MagickGetImageProperty(),
   MagickIdentifyImage() and MagickSepiaToneImage().
 
 ##############################################################################
