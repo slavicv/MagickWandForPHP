@@ -516,7 +516,7 @@ ZEND_INI_END()
 
 /* magickwand_functions[]	=>	Every user visible function must have an entry in magickwand_functions[].
  */
-static function_entry magickwand_functions[] =
+static const zend_function_entry magickwand_functions[] =
 {
 	PHP_FE( wandgetexception, NULL )
 	PHP_FE( wandgetexceptionstring, NULL )

@@ -1,3 +1,11 @@
+2011-11-13  1.0.9-0 Herve Seignole  <herve.seignole@gmail...>
+  * PHP > 5.3.0 does not define safe mode or php_checkuid (see
+    http://php.net/manual/en/features.safe-mode).
+  * Use zend_function_entry rather than function_entry.
+
+2009-10-21  1.0.9-0 Cristy  <omicronpersei8@image...>
+  * Update to replace deprecated methods.
+
 2009-02-18  1.0.8-1 Mikko Koppanen  <mikko.koppanen@gmail...>
   * Add MagickReadImageFile functionality.
   * Change from ZEND_FE and ZEND_FUNCTION to PHP_FE and PHP_FUNCTION.

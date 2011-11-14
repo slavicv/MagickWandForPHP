@@ -1445,9 +1445,14 @@ static MagickBooleanType
 /* ************************************************************************************************************** */
 
 
-#define MW_FILE_FAILS_INI_TESTS( filename )  \
-	( PG( safe_mode ) && !php_checkuid( filename, NULL, CHECKUID_CHECK_FILE_AND_DIR ) )  \
-	|| php_check_open_basedir( filename TSRMLS_CC )
+#if PHP_API_VERSION < 20100412
+#define MW_FILE_FAILS_INI_TESTS( filename ) \
+    ( PG( safe_mode ) && !php_checkuid( filename, NULL, CHECKUID_CHECK_FILE_AND_DIR ) )  \
+    || php_check_open_basedir( filename TSRMLS_CC )
+#else
+#define MW_FILE_FAILS_INI_TESTS( filename ) \
+    php_check_open_basedir( filename TSRMLS_CC )
+#endif
 
 
 /* ************************************************************************************************************** */
