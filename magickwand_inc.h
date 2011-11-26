@@ -61,7 +61,7 @@ static double MW_QuantumRange;
 
 static MagickBooleanType
 		   MW_zend_register_resource(
-			   const MagickBooleanType verify, const void *obj_ptr, zval *zval_p, const int le_zend_rsrc_type, int *return_rsrc_id )
+			   const MagickBooleanType verify, const void *obj_ptr, zval *zval_p, const int le_zend_rsrc_type, int *return_rsrc_id TSRMLS_DC)
 {
 	if ( verify == MagickFalse ) { return MagickFalse; }
 
@@ -188,7 +188,7 @@ static MagickBooleanType
 /* ************************************************************************************************************** */
 
 #define MW_ZEND_REGISTER_RESOURCE( ResType, obj, zval_p, return_rsrc_id )  \
-	MW_zend_register_resource( ResType ## _IS_GOOD( obj ), (void *) obj, zval_p, le_ ## ResType, return_rsrc_id )
+	MW_zend_register_resource( ResType ## _IS_GOOD( obj ), (void *) obj, zval_p, le_ ## ResType, return_rsrc_id TSRMLS_CC)
 
 /* ************************************************************************************************************** */
 
