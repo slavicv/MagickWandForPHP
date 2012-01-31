@@ -307,6 +307,7 @@ extern zend_module_entry magickwand_module_entry;
 /*	PHP_FUNCTION( magickgetimagechanneldistortion ); */
 
 	PHP_FUNCTION( magickgetimagedispose );
+	PHP_FUNCTION( magickgetimageendian );
 	PHP_FUNCTION( magickgetimageattribute );
 
 	PHP_FUNCTION( magickgetimageextrema );
@@ -497,6 +498,7 @@ extern zend_module_entry magickwand_module_entry;
 /*	PHP_FUNCTION( magicksetimagechanneldepth ); */
 
 	PHP_FUNCTION( magicksetimagedispose );
+	PHP_FUNCTION( magicksetimageendian );
 
 	PHP_FUNCTION( magicksetimageextent );
 

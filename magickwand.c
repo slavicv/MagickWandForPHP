@@ -797,6 +797,7 @@ static const zend_function_entry magickwand_functions[] =
 /*	PHP_FE( magickgetimagechanneldistortion, NULL )	*/
 
 	PHP_FE( magickgetimagedispose, NULL )
+	PHP_FE( magickgetimageendian, NULL )
 	PHP_FE( magickgetimageattribute, NULL )
 
 	PHP_FE( magickgetimageextrema, NULL )
@@ -985,6 +986,7 @@ static const zend_function_entry magickwand_functions[] =
 /*	PHP_FE( magicksetimagechanneldepth, NULL )  */
 
 	PHP_FE( magicksetimagedispose, NULL )
+	PHP_FE( magicksetimageendian, NULL )
 
 	PHP_FE( magicksetimageextent, NULL )
 	ZEND_FALIAS( magicksetimagesize, magicksetimageextent, NULL )
@@ -5753,6 +5755,16 @@ PHP_FUNCTION( magickgetimagedispose )
 }
 /* }}} */
 
+/* {{{ proto int MagickGetImageEndian( MagickWand magick_wand )
+*/
+PHP_FUNCTION( magickgetimageendian )
+{
+	MW_PRINT_DEBUG_INFO
+
+	MW_GET_WAND_RET_LONG( MagickWand, MagickGetImageEndian );
+}
+/* }}} */
+
 /* {{{ proto string MagickGetImageProperty( MagickWand magick_wand, string key )
 */
 PHP_FUNCTION( magickgetimageattribute )
@@ -8617,6 +8629,16 @@ PHP_FUNCTION( magicksetimagedispose )
 	MW_PRINT_DEBUG_INFO
 
 	MW_GET_MAGICKWAND_SET_ENUM_RET_BOOL( DisposeType, MagickSetImageDispose );
+}
+/* }}} */
+
+/* {{{ proto bool MagickSetImageEndian( MagickWand magick_wand, int endian_type )
+*/
+PHP_FUNCTION( magicksetimageendian )
+{
+	MW_PRINT_DEBUG_INFO
+
+	MW_GET_MAGICKWAND_SET_ENUM_RET_BOOL( EndianType, MagickSetImageEndian );
 }
 /* }}} */
 
