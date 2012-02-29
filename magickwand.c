@@ -8632,16 +8632,6 @@ PHP_FUNCTION( magicksetimagedispose )
 }
 /* }}} */
 
-/* {{{ proto bool MagickSetImageEndian( MagickWand magick_wand, int endian_type )
-*/
-PHP_FUNCTION( magicksetimageendian )
-{
-	MW_PRINT_DEBUG_INFO
-
-	MW_GET_MAGICKWAND_SET_ENUM_RET_BOOL( EndianType, MagickSetImageEndian );
-}
-/* }}} */
-
 /* {{{ proto bool MagickSetImageExtent( MagickWand magick_wand, int columns, int rows )
 */
 PHP_FUNCTION( magicksetimageextent )
